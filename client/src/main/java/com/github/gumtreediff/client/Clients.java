@@ -44,7 +44,7 @@ public class Clients extends Registry.NamedRegistry<String, Client, Register> {
         return new ClientEntry(clazz, annotation.name(), annotation.description(), annotation.experimental());
     }
 
-    class ClientEntry extends NamedRegistry.NamedEntry {
+    class ClientEntry extends NamedRegistry<String, Client, Register>.NamedEntry {
         final String description;
 
         public ClientEntry(Class<? extends Client> clazz, String id, String description, boolean experimental) {
