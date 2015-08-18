@@ -1,5 +1,5 @@
 
-package gen.envision;
+package com.github.gumtreediff.gen.envision;
 
 import java.io.BufferedReader;
 import java.io.IOException;
