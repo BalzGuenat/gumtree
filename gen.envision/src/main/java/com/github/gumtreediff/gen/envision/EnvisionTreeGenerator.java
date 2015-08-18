@@ -18,7 +18,7 @@ import com.github.gumtreediff.tree.TreeContext;
 import com.github.gumtreediff.tree.TreeUtils;
 import com.github.gumtreediff.tree.TreeUtils.TreeVisitor;
 
-@Register(id = "envision", accept = "\\$")
+@Register(id = "envision", accept = "$")
 public class EnvisionTreeGenerator extends TreeGenerator {
 
 	private static final String LINE_NUM = "lineNum";

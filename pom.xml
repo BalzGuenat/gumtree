@@ -51,6 +51,7 @@
         <module>gen.ruby</module>
         <module>gen.sax</module>
         <module>gen.c</module>
+		<module>gen.envision</module>
         <module>client</module>
         <module>client.diff</module>
         <module>gumtree-all</module>
