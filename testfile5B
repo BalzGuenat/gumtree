@@ -1,0 +1,8 @@
+0 Module {f40f0c9e-c1e0-431b-9572-fc7793e48c48} {b9a36f41-5175-4bd5-9617-26efda928fd6}
+	0 Class {1ce2b7af-5ba9-43ba-8076-67235497d70d} {5a1646a4-3a3e-4ef4-acbb-cf5d95f84b99}
+		0 NameImport {2aaeb3b9-8780-42e2-b58c-d4f9c6abb4b1} {69d174e1-5905-40d5-b66f-725cb4fe8cdb}
+			importedName ReferenceExpression {4f17f696-d9cc-45d0-a771-e2ef558c84e8} {2aaeb3b9-8780-42e2-b58c-d4f9c6abb4b1}
+				ref OOReference {6dfc40f4-0c35-4c13-b34a-66358cd8a1d5} {4f17f696-d9cc-45d0-a771-e2ef558c84e8}. S_____NULL____:List
+		1 NameImport {559003d5-2e0a-4ccf-9330-d6182df16823} {69d174e1-5905-40d5-b66f-725cb4fe8cdb}
+			importedName ReferenceExpression {e9630e93-71b3-4cb1-aa9e-58c23a008c99} {559003d5-2e0a-4ccf-9330-d6182df16823}
+				ref OOReference {a843d6fa-05ea-4cbc-9b1a-2c44a170ed02} {e9630e93-71b3-4cb1-aa9e-58c23a008c99}. S_____NULL____:ArrayList

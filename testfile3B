@@ -1,0 +1,14 @@
+0 Module {f40f0c9e-c1e0-431b-9572-fc7793e48c48} {b9a36f41-5175-4bd5-9617-26efda928fd6}
+	name NameText {89e80802-22c3-47bf-86f6-c66a72ea3c56} {f40f0c9e-c1e0-431b-9572-fc7793e48c48}. S_javaImportTool
+	testLabel1 TestType1 {a0897e6e-d49f-4dfd-ba45-26a9e369b85a} {f40f0c9e-c1e0-431b-9572-fc7793e48c48}. I_0
+	modifiers Modifier {a0897e6e-d49f-4dfd-ba45-26a9e369b85c} {f40f0c9e-c1e0-431b-9572-fc7793e48c48}. I_0
+	classes TypedListOfClass {5a1646a4-3a3e-4ef4-acbb-cf5d95f84b99} {f40f0c9e-c1e0-431b-9572-fc7793e48c48}
+		0 Class {1ce2b7af-5ba9-43ba-8076-67235497d70d} {5a1646a4-3a3e-4ef4-acbb-cf5d95f84b99}
+			name NameText {5cac7b69-ace1-45fa-a0f3-c97e9e1f8924} {1ce2b7af-5ba9-43ba-8076-67235497d70d}. S_MethodMetrics
+			modifiers Modifier {a1f69798-1424-46b4-917e-6c5d6a4838a4} {1ce2b7af-5ba9-43ba-8076-67235497d70d}. I_1
+				0 NameImport {559003d5-2e0a-4ccf-9330-d6182df16823} {69d174e1-5905-40d5-b66f-725cb4fe8cdb}
+					name NameText {53c681a7-4f6f-4483-a015-eb08d2a5e640} {559003d5-2e0a-4ccf-9330-d6182df16823}. S_Bye
+					modifiers Modifier {cca7da78-d14e-4814-b9b8-b9ab7bdca7f6} {559003d5-2e0a-4ccf-9330-d6182df16823}. I_1
+				1 NameImport {2aaeb3b9-8780-42e2-b58c-d4f9c6abb4b1} {69d174e1-5905-40d5-b66f-725cb4fe8cdb}
+					name NameText {b5dcc04c-7280-42dd-b0ba-d6a931df7378} {2aaeb3b9-8780-42e2-b58c-d4f9c6abb4b1}. S_Hello
+					modifiers Modifier {8f5843e0-6a08-4ca8-9c2c-573ab44ae0fa} {2aaeb3b9-8780-42e2-b58c-d4f9c6abb4b1}. I_0

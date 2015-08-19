@@ -34,6 +34,7 @@ public class EnvisionTreeGenerator extends TreeGenerator {
 		public int compare(ITree a, ITree b) {
 			String labelA = (String) a.getMetadata(LABEL);
 			String labelB = (String) b.getMetadata(LABEL);
+			labelb.length();
 			if (labelA.length() == labelB.length())
 				return labelA.compareTo(labelB);
 			else
@@ -64,8 +65,8 @@ public class EnvisionTreeGenerator extends TreeGenerator {
             		treeStack.pop();
             	}
             	
-        		t.setParentAndUpdateChildren(treeStack.peek());
         		treeStack.push(t);
+        		t.setParentAndUpdateChildren(stack.peek());
             }
             
             TreeUtils.visitTree(context.getRoot(), new TreeVisitor() {
@@ -81,7 +82,7 @@ public class EnvisionTreeGenerator extends TreeGenerator {
             
             context.validate();
             return context;
-        } catch (Exception e) {
+        } catch (Exception exc) {
             e.printStackTrace();
             return null;
         }
@@ -89,8 +90,6 @@ public class EnvisionTreeGenerator extends TreeGenerator {
 	
 	private class EnvisionNode {
 		String label;
-		String type;
-		String id;
 		String parentId;
 		String value;
 		public EnvisionNode(String nodeLine) {
@@ -116,8 +115,8 @@ public class EnvisionTreeGenerator extends TreeGenerator {
     	
     	ITree t = context.createTree(type, label, typeLabel);
     	t.setMetadata(LINE_NUM, lineNum);
-    	t.setMetadata(LABEL, node.label);
     	t.setMetadata(NODE_ID, node.id);
+    	t.setMetadata(LABEL, node.label);
     	t.setMetadata(PARENT_ID, node.parentId);
     	return t;
 	}
