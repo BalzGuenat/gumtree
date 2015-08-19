@@ -96,6 +96,8 @@ public class EnvisionTreeGenerator extends TreeGenerator {
 		public EnvisionNode(String nodeLine) {
 			Pattern p = Pattern.compile("\\t*(\\S+) (\\S+) \\{(\\S+)\\} \\{(\\S+)\\}(\\. [SID]_(.*))?");
 			Matcher m = p.matcher(nodeLine);
+			boolean matched = m.matches();
+			assert matched;
 			label = m.group(1);
 			type = m.group(2);
 			id = m.group(3);
