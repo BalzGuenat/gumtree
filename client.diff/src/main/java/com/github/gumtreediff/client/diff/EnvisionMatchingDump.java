@@ -16,10 +16,7 @@ import com.github.gumtreediff.matchers.Matcher;
         experimental = true, options = AbstractDiffClient.Options.class)
 public class EnvisionMatchingDump extends AbstractDiffClient<AbstractDiffClient.Options> {
 
-	private static final String LINE_NUM = "lineNum";
-	private static final String NODE_ID = "nodeId";
-	private static final String PARENT_ID = "parentId";
-	
+	private static final String NODE_ID = "nodeId";	
 	private static final String OUTPUT_FILE_SUFFIX = ".idpatch";
 	
     public EnvisionMatchingDump(String[] args) {
@@ -34,25 +31,15 @@ public class EnvisionMatchingDump extends AbstractDiffClient<AbstractDiffClient.
     @Override
     public void run() {
         Matcher matcher = matchTrees();
-        ArrayList<Mapping> mappings = new ArrayList<>(matcher.getMappingSet());
-        mappings.sort(new Comparator<Mapping>() {
-
-			@Override
-			public int compare(Mapping a, Mapping b) {
-				return (Integer) a.getSecond().getMetadata(LINE_NUM) - (Integer) b.getSecond().getMetadata(LINE_NUM);
-			}
-		});
-        
+        ArrayList<Mapping> mappings = new ArrayList<>(matcher.getMappingSet());        
 		try {
 	        File dstFile = new File(opts.dst);
 	        File outputFile = new File(dstFile.getParentFile(), dstFile.getName() + OUTPUT_FILE_SUFFIX);
 			PrintWriter writer = new PrintWriter(outputFile);
 	        for (Mapping m : mappings) {
-	    		String outputLine = String.format("%d, %s, %s", 
-	    				m.getSecond().getMetadata(LINE_NUM), 
-	    				m.getFirst().getMetadata(NODE_ID), 
-	    				m.getFirst().getMetadata(PARENT_ID) );
-	    		
+	    		String outputLine = String.format("%s -> %s", 
+	    				m.getSecond().getMetadata(NODE_ID), 
+	    				m.getFirst().getMetadata(NODE_ID) );
 	    		writer.println(outputLine);
 	        }
 	        writer.close();
