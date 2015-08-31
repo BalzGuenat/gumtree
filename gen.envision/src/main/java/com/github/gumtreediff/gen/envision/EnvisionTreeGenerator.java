@@ -30,8 +30,8 @@ public class EnvisionTreeGenerator extends TreeGenerator {
 	private static final String LABEL = "label";
 	private static final String NODE_ID = "nodeId";
 	private static final String PARENT_ID = "parentId";
-	private final HashMap<String, Integer> typeMap = new HashMap<>();
-	private int nextTypeId = 0;
+	private static final HashMap<String, Integer> typeMap = new HashMap<>();
+	private static int nextTypeId = 0;
 	
 	private static class LabelComparator implements Comparator<ITree> {
 
@@ -77,13 +77,13 @@ public class EnvisionTreeGenerator extends TreeGenerator {
             	}
             	
         		t.setParentAndUpdateChildren(treeStack.peek());
-        		
+        		/*
             	if (t.getMetadata(TYPE).equals("NameText")) {
             		// if we find a NameText node, we update the label of its parent
             		ITree parent = treeStack.peek();
             		parent.setType(NAMED_NODE);
             		parent.setLabel(parent.getLabel() + ":" + t.getLabel());
-            	}
+            	}*/
             	
         		treeStack.push(t);
             }
@@ -136,9 +136,11 @@ public class EnvisionTreeGenerator extends TreeGenerator {
     	if (!typeMap.containsKey(node.type)) {
     		typeMap.put(node.type, nextTypeId++);
     	}
+    	/*
     	int type;
     	String typeLabel;
     	String label;
+    	
     	if (node.value == null) {
     		type = INNER_NODE;
     		typeLabel = "Inner Node";
@@ -147,7 +149,10 @@ public class EnvisionTreeGenerator extends TreeGenerator {
     		type = LEAF_NODE;
     		typeLabel = "Leaf Node";
     		label = node.value;
-    	}
+    	}*/
+    	int type = typeMap.get(node.type);
+    	String typeLabel = node.type;
+    	String label = (node.value != null) ? node.value : ITree.NO_LABEL;
     	
     	ITree t = context.createTree(type, label, typeLabel);
     	t.setMetadata(LINE_NUM, lineNum);
