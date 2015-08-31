@@ -21,7 +21,6 @@
 package com.github.gumtreediff.matchers;
 
 import com.github.gumtreediff.gen.Registry;
-import com.github.gumtreediff.gen.Registry;
 import com.github.gumtreediff.tree.ITree;
 
 public class Matchers extends Registry.NamedRegistry<String, Matcher, Register> {
@@ -37,6 +36,20 @@ public class Matchers extends Registry.NamedRegistry<String, Matcher, Register> 
 
     private Matchers() {
         install(CompositeMatchers.ClassicGumtree.class);
+        install(CompositeMatchers.CompleteGumtreeMatcher.class);
+        install(CompositeMatchers.XyMatcher.class);
+        //install(CompositeMatchers.ChangeDistiller.class);
+        
+        /*
+        Reflections reflections = new Reflections("com.github.gumtreediff.matchers");
+
+        reflections.getSubTypesOf(Matcher.class).forEach(
+                m -> {
+                    com.github.gumtreediff.matchers.Register a =
+                            m.getAnnotation(com.github.gumtreediff.matcher.Register.class);
+                	this.install(m, a);
+            });
+            */
     }
 
     private void install(Class<? extends Matcher> clazz) {

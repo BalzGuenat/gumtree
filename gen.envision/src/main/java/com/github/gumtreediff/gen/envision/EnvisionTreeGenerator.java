@@ -23,8 +23,10 @@ public class EnvisionTreeGenerator extends TreeGenerator {
 	
 	private static final int INNER_NODE = 0;
 	private static final int LEAF_NODE = 1;
+	private static final int NAMED_NODE = 2;
 
 	private static final String LINE_NUM = "lineNum";
+	private static final String TYPE = "type";
 	private static final String LABEL = "label";
 	private static final String NODE_ID = "nodeId";
 	private static final String PARENT_ID = "parentId";
@@ -75,6 +77,14 @@ public class EnvisionTreeGenerator extends TreeGenerator {
             	}
             	
         		t.setParentAndUpdateChildren(treeStack.peek());
+        		
+            	if (t.getMetadata(TYPE).equals("NameText")) {
+            		// if we find a NameText node, we update the label of its parent
+            		ITree parent = treeStack.peek();
+            		parent.setType(NAMED_NODE);
+            		parent.setLabel(parent.getLabel() + ":" + t.getLabel());
+            	}
+            	
         		treeStack.push(t);
             }
             ++lineNum; // close off remaining trees.
@@ -142,6 +152,7 @@ public class EnvisionTreeGenerator extends TreeGenerator {
     	ITree t = context.createTree(type, label, typeLabel);
     	t.setMetadata(LINE_NUM, lineNum);
     	t.setMetadata(LABEL, node.label);
+    	t.setMetadata(TYPE, node.type);
     	t.setMetadata(NODE_ID, node.id);
     	t.setMetadata(PARENT_ID, node.parentId);
     	return t;
