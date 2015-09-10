@@ -123,7 +123,13 @@ public abstract class AbstractDiffClient<O extends AbstractDiffClient.Options> e
 
     private TreeContext getTreeContext(String file) {
         try {
-            TreeContext t = Generators.getInstance().getTree(file);
+        	TreeContext t;
+        	if (!opts.generators.isEmpty()) {
+        		t = Generators.getInstance().getTree(opts.generators.get(0), file);
+        	}
+        	else {
+    			t = Generators.getInstance().getTree(file);
+    		}
             return t;
         } catch (IOException e) {
             e.printStackTrace();
