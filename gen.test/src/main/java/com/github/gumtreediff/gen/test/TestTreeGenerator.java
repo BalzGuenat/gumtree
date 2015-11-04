@@ -1,9 +1,10 @@
 
-package gen.envision;
+package com.github.gumtreediff.gen.test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.Integer;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -18,15 +19,20 @@ import com.github.gumtreediff.tree.TreeContext;
 import com.github.gumtreediff.tree.TreeUtils;
 import com.github.gumtreediff.tree.TreeUtils.TreeVisitor;
 
-@Register(id = "envision", accept = "\\$")
-public class EnvisionTreeGenerator extends TreeGenerator {
+@Register(id = "testgen", accept = "\\.test$")
+public class TestTreeGenerator extends TreeGenerator {
+	
+	private static final int INNER_NODE = 0;
+	private static final int LEAF_NODE = 1;
+	private static final int NAMED_NODE = 2;
 
-	private static final String LINE_NUM = "lineNum";
+	private static final String LINE_NUM = "lineNumber";
+	private static final String DEPTH = "depth";
+	private static final String TYPE = "type";
 	private static final String LABEL = "label";
-	private static final String NODE_ID = "nodeId";
 	private static final String PARENT_ID = "parentId";
-	private final HashMap<String, Integer> typeMap = new HashMap<>();
-	private int nextTypeId = 0;
+	private static final HashMap<String, Integer> typeMap = new HashMap<>();
+	private static int nextTypeId = 0;
 	
 	private static class LabelComparator implements Comparator<ITree> {
 
@@ -49,25 +55,46 @@ public class EnvisionTreeGenerator extends TreeGenerator {
         	TreeContext context = new TreeContext();
             Stack<ITree> treeStack = new Stack<>();
             int lineNum = 0;
+            int pos = 0;
             if (r.ready()) {
-            	ITree t = createTree(context, r.readLine(), ++lineNum);
+            	String line = r.readLine();
+            	ITree t = createTree(context, line, ++lineNum);
+            	t.setPos(pos);
             	context.setRoot(t);
             	treeStack.push(t);
+            	pos += line.length() + 1; // + 1 for newlines
             }
             while (r.ready()) {
             	String nodeLine = r.readLine();
             	ITree t = createTree(context, nodeLine, ++lineNum);
+            	t.setPos(pos);
+            	pos += nodeLine.length() + 1;
             	
             	// This "walks up" the tree up to the parent of the current node
-            	int popCount = treeStack.size() - depth(nodeLine);
+				int depth = (Integer) t.getMetadata(DEPTH);
+            	int popCount = treeStack.size() - depth;
             	for (int i = 0; i < popCount; i++) {
-            		treeStack.pop();
+            		ITree closedTree = treeStack.pop();
+            		closedTree.setLength(pos - closedTree.getPos());
             	}
             	
         		t.setParentAndUpdateChildren(treeStack.peek());
+        		/*
+            	if (t.getMetadata(TYPE).equals("NameText")) {
+            		// if we find a NameText node, we update the label of its parent
+            		ITree parent = treeStack.peek();
+            		parent.setType(NAMED_NODE);
+            		parent.setLabel(parent.getLabel() + ":" + t.getLabel());
+            	}*/
+            	
         		treeStack.push(t);
             }
-            
+            ++lineNum; // close off remaining trees.
+        	while (!treeStack.isEmpty()) {
+        		ITree closedTree = treeStack.pop();
+        		closedTree.setLength(pos - closedTree.getPos());
+        	}
+            /*
             TreeUtils.visitTree(context.getRoot(), new TreeVisitor() {
 				
 				@Override
@@ -75,10 +102,10 @@ public class EnvisionTreeGenerator extends TreeGenerator {
 				
 				@Override
 				public void endTree(ITree tree) {
-					tree.getChildren().sort(new LabelComparator());;
+					tree.getChildren().sort(new LabelComparator());
 				}
 			});
-            
+            */
             context.validate();
             return context;
         } catch (Exception e) {
@@ -86,45 +113,29 @@ public class EnvisionTreeGenerator extends TreeGenerator {
             return null;
         }
 	}
-	
-	private class EnvisionNode {
+
+	static final Pattern p = Pattern.compile("(\\s*)(\\d+):(\\S+)");
+	private class TestNode {
+		int depth;
+		String typeLabel;
+		int type;
 		String label;
-		String type;
-		String id;
-		String parentId;
-		String value;
-		public EnvisionNode(String nodeLine) {
-			Pattern p = Pattern.compile("\\t*(\\S+) (\\S+) \\{(\\S+)\\} \\{(\\S+)\\}(\\. [SID]_(.*))?");
+		public TestNode(String nodeLine) {
 			Matcher m = p.matcher(nodeLine);
-			label = m.group(1);
-			type = m.group(2);
-			id = m.group(3);
-			parentId = m.group(4);
-			value = m.group(6);
+			boolean matched = m.matches();
+			assert matched;
+			depth = m.group(1).length();
+			typeLabel = m.group(2);
+			type = Integer.parseInt(typeLabel);
+			label = m.group(3);
 		}
 	}
 	
 	private ITree createTree(TreeContext context, String nodeLine, int lineNum) {
-		EnvisionNode node = new EnvisionNode(nodeLine);
-    	if (!typeMap.containsKey(node.type)) {
-    		typeMap.put(node.type, nextTypeId++);
-    	}
-    	int type = typeMap.get(node.type); // This is the integer identifying the AST node-type
-    	String label = (node.value != null) ? node.value : ITree.NO_LABEL; // This is a string relating the node to the code.
-    	// e.g. in an assignment "p = 12" the left-hand-side AST node would have label "p")
-    	String typeLabel = node.type; // This is the name of the type. In our example "Ident".
-    	
-    	ITree t = context.createTree(type, label, typeLabel);
+		TestNode node = new TestNode(nodeLine);
+    	ITree t = context.createTree(node.type, node.label, node.typeLabel);
+		t.setMetadata(DEPTH, node.depth);
     	t.setMetadata(LINE_NUM, lineNum);
-    	t.setMetadata(LABEL, node.label);
-    	t.setMetadata(NODE_ID, node.id);
-    	t.setMetadata(PARENT_ID, node.parentId);
     	return t;
-	}
-	
-	private static int depth(String nodeLine) {
-		int i = 0;
-		for (; nodeLine.charAt(i) == '\t'; i++);
-		return i;
 	}
 }

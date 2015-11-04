@@ -39,6 +39,7 @@
 
     <modules>
         <module>core</module>
+        <!-- not needed for now so speed up compilation
         <module>gen.antlr</module>
         <module>gen.antlr-r</module>
         <module>gen.antlr-antlr</module>
@@ -51,7 +52,9 @@
         <module>gen.ruby</module>
         <module>gen.sax</module>
         <module>gen.c</module>
-		<module>gen.envision</module>
+        <module>gen.envision</module>
+        -->
+        <module>gen.test</module>
         <module>client</module>
         <module>client.diff</module>
         <module>gumtree-all</module>
