@@ -110,6 +110,7 @@ public class GreedyBottomUpMatcher extends Matcher {
 
     //FIXME checks if it is better or not to remove the already found mappings.
     private void lastChanceMatch(ITree src, ITree dst) {
+        /* removed for testing
         ITree cSrc = src.deepCopy();
         ITree cDst = dst.deepCopy();
         TreeUtils.removeMatched(cSrc);
@@ -134,7 +135,7 @@ public class GreedyBottomUpMatcher extends Matcher {
                 } else addMapping(left, right);
             }
         }
-
+        */
         for (ITree t : src.getTrees())
             t.setMatched(true);
         for (ITree t : dst.getTrees())
