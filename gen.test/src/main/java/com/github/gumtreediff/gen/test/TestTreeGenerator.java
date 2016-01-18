@@ -107,6 +107,7 @@ public class TestTreeGenerator extends TreeGenerator {
 			});
             */
             context.validate();
+			System.out.println(String.format("Tree generated:\t%d", System.currentTimeMillis()));
             return context;
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,7 +115,7 @@ public class TestTreeGenerator extends TreeGenerator {
         }
 	}
 
-	static final Pattern p = Pattern.compile("(\\s*)(\\d+):(\\S+)");
+	static final Pattern p = Pattern.compile("^(\\s*)(\\d+):(.*)$");
 	private class TestNode {
 		int depth;
 		String typeLabel;
@@ -124,6 +125,8 @@ public class TestTreeGenerator extends TreeGenerator {
 			Matcher m = p.matcher(nodeLine);
 			boolean matched = m.matches();
 			assert matched;
+			if (!matched)
+				System.err.println("Cannot match line: " + nodeLine);
 			depth = m.group(1).length();
 			typeLabel = m.group(2);
 			type = Integer.parseInt(typeLabel);

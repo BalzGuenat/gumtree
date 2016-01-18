@@ -41,6 +41,7 @@ public class TestTreesMatchingDump extends AbstractDiffClient<AbstractDiffClient
     @Override
     public void run() {
         Matcher matcher = matchTrees();
+		System.out.println(String.format("Trees matched:\t%d", System.currentTimeMillis()));
         ArrayList<Mapping> mappings = new ArrayList<>(matcher.getMappingSet());
 		mappings.sort(new LineComparator());
 		try {
